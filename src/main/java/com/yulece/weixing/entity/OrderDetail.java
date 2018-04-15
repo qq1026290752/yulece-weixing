@@ -23,7 +23,7 @@ public class OrderDetail {
     private String productId;
     private String productName;
     private BigDecimal productPrice;
-    private Integer productQuantity;
+    private Integer productQuantity;//购买的商品数量
     private String productIcon;
     private Date createTime;
     private Date updateTime;

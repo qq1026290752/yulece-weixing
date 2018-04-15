@@ -1,9 +1,12 @@
 package com.yulece.weixing.service.impl;
 
 import com.yulece.weixing.dao.ProductInfoDao;
+import com.yulece.weixing.dto.CartDto;
 import com.yulece.weixing.entity.ProductCategory;
 import com.yulece.weixing.entity.ProductInfo;
+import com.yulece.weixing.enums.ExceptionEnum;
 import com.yulece.weixing.enums.ProductStatusEnum;
+import com.yulece.weixing.exception.YuleceException;
 import com.yulece.weixing.service.ProductCategoryService;
 import com.yulece.weixing.service.ProductService;
 import com.yulece.weixing.vo.ProductInfoVo;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,5 +87,36 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return ResultVo.createSuccessResult("成功",  productVos);
+    }
+
+    @Override
+    @Transactional
+    public void increaseStock(List<CartDto> cartDtoList) {
+        for(CartDto cartDto:cartDtoList){
+            ProductInfo productInfo = findById(cartDto.getProductId());
+            if(productInfo == null){
+                throw new YuleceException(ExceptionEnum.PRODUCT_INEXISTENCE);
+            }
+            int result = productInfo.getProductStock() + cartDto.getProductQuantity();
+            productInfo.setProductStock(result);
+            save(productInfo);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void decreaseStock(List<CartDto> cartDtoList) {
+        for(CartDto cartDto:cartDtoList){
+            ProductInfo productInfo = findById(cartDto.getProductId());
+            if(productInfo == null){
+                throw new YuleceException(ExceptionEnum.PRODUCT_INEXISTENCE);
+            }
+            int result = productInfo.getProductStock() - cartDto.getProductQuantity();
+            if(result < 0){
+                throw new YuleceException(ExceptionEnum.PRODUCT_STOCK_INSUFFICIENT);
+            }
+            productInfo.setProductStock(result);
+            save(productInfo);
+        }
     }
 }

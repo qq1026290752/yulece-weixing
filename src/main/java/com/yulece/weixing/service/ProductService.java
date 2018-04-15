@@ -1,5 +1,6 @@
 package com.yulece.weixing.service;
 
+import com.yulece.weixing.dto.CartDto;
 import com.yulece.weixing.entity.ProductInfo;
 import com.yulece.weixing.vo.ProductVo;
 import com.yulece.weixing.vo.ResultVo;
@@ -31,10 +32,9 @@ public interface ProductService {
 
     ResultVo<List<ProductVo>> getProductAll();
 
-
-
     //增加库存
+    void increaseStock(List<CartDto> cartDto);
 
     //减少库存
-
+    void decreaseStock(List<CartDto> cartDto);
 }

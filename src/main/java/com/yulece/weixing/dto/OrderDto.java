@@ -1,9 +1,12 @@
 package com.yulece.weixing.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yulece.weixing.entity.OrderDetail;
 import com.yulece.weixing.enums.OrderEnum;
+import com.yulece.weixing.utils.serializer.DateToLongSerializer;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,6 +16,7 @@ import java.util.List;
  * @Description: 订单传输类
  * @Date 2018/4/14/22:12
  **/
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDto {
 
     private String orderId;
@@ -23,7 +27,29 @@ public class OrderDto {
     private BigDecimal orderAmount;
     private Integer orderStatus = OrderEnum.OrderStatusEnum.NEW.getCode();
     private Integer payStatus = OrderEnum.PayStatusEnum.WAIT.getCode();
+
     private List<OrderDetail> orderDetails;
+
+    @JsonSerialize(using = DateToLongSerializer.class)
+    private Date createTime;
+    @JsonSerialize(using = DateToLongSerializer.class)
+    private Date updateTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public String getOrderId() {
         return orderId;

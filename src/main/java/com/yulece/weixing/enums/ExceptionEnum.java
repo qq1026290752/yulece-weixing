@@ -16,6 +16,8 @@ public enum  ExceptionEnum {
     ORDER_UPDATE_ERROR(13,"订单更新异常"),
     ORDER_DETAIL_NOT_NULL(14,"订单详情不存在,不用返还库存"),
     ORDER_PAY_WAIT_ERROR(15,"订单未支付状态"),
+    PARAM_ERROR(20,"传入参数异常"),
+    ORDER_CANCEL_ERROR(16,"订单更新异常"),
     ;
 
     private Integer code;

@@ -17,5 +17,9 @@ public class YuleceException extends RuntimeException{
         super(exceptionEnum.getMessage());
         this.code = exceptionEnum.getCode();
     }
+    public YuleceException(Integer code,String message){
+        super(message);
+        this.code = code;
+    }
 
 }

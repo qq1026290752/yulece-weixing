@@ -1,8 +1,6 @@
 package com.yulece.weixing.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yulece.weixing.enums.ResultEnum;
-import lombok.Data;
 
 /**
  * @author wangyichao@28ph.cn
@@ -46,17 +44,27 @@ public class ResultVo<T> {
         this.data = data;
         this.message = message;
     }
+    private ResultVo(Integer code){
+        this.code = code;
+    }
 
     public static <T> ResultVo<T> createSuccessResult(String message,T data){
         return new ResultVo(ResultEnum.SUCCESS.getCode(),message,data);
     }
-    public static <T> ResultVo<T> errorSuccessResult(String message,T data){
+
+    public static <T> ResultVo<T> createSuccessResult(Integer code){
+        return new ResultVo(code);
+    }
+    public static <T> ResultVo<T> createErrorResult(String message,T data){
         return new ResultVo(ResultEnum.ERROR.getCode(),message,data);
     }
     public static <T> ResultVo<T> createSuccessResult(T data){
         return new ResultVo(ResultEnum.SUCCESS.getCode(),ResultEnum.SUCCESS.getMessage(),data);
     }
-    public static <T> ResultVo<T> errorSuccessResult(T data){
+    public static <T> ResultVo<T> createErrorResult(T data){
         return new ResultVo(ResultEnum.ERROR.getCode(),ResultEnum.SUCCESS.getMessage(),data);
+    }
+    public static <T> ResultVo<T> createErrorResult(Integer code){
+        return new ResultVo(code);
     }
 }
